@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.Window;
-import android.widget.Toast;
 import com.afollestad.aesthetic.AestheticActivity;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.Purchase;
@@ -42,7 +41,7 @@ public abstract class BaseActivity extends AestheticActivity implements
         ServiceConnection,
         BillingManager.BillingUpdatesListener {
 
-    private Boolean bindInFlight = false;
+    private boolean bindInFlight = false;
 
     @Nullable
     private MusicServiceConnectionUtils.ServiceToken token;

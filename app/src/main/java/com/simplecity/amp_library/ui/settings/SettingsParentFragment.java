@@ -50,8 +50,8 @@ public class SettingsParentFragment extends BaseNavigationController implements
         DrawerLockManager.DrawerLock,
         MiniPlayerLockManager.MiniPlayerLock {
 
-    public static String ARG_PREFERENCE_RESOURCE = "preference_resource";
-    public static String ARG_TITLE = "title";
+    public static final String ARG_PREFERENCE_RESOURCE = "preference_resource";
+    public static final String ARG_TITLE = "title";
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -71,9 +71,6 @@ public class SettingsParentFragment extends BaseNavigationController implements
         SettingsParentFragment fragment = new SettingsParentFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public SettingsParentFragment() {
     }
 
     @Override
@@ -163,9 +160,6 @@ public class SettingsParentFragment extends BaseNavigationController implements
             SettingsFragment settingsFragment = new SettingsFragment();
             settingsFragment.setArguments(args);
             return settingsFragment;
-        }
-
-        public SettingsFragment() {
         }
 
         @Override
@@ -384,10 +378,8 @@ public class SettingsParentFragment extends BaseNavigationController implements
 
             // Upgrade preference
             Preference upgradePreference = findPreference(SettingsManager.KEY_PREF_UPGRADE);
-            if (upgradePreference != null) {
-                if (ShuttleUtils.isUpgraded((ShuttleApplication) getContext().getApplicationContext(), settingsManager)) {
-                    upgradePreference.setVisible(false);
-                }
+            if (upgradePreference != null && ShuttleUtils.isUpgraded((ShuttleApplication) getContext().getApplicationContext(), settingsManager)) {
+                upgradePreference.setVisible(false);
             }
         }
 
@@ -471,11 +463,6 @@ public class SettingsParentFragment extends BaseNavigationController implements
             } else if (dialog == accentColorDialog) {
                 settingsPresenter.changeAccentColor(getContext(), selectedColor);
             }
-        }
-
-        @Override
-        public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {
-
         }
 
         // Support View

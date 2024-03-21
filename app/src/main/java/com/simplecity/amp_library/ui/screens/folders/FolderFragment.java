@@ -343,13 +343,11 @@ public class FolderFragment extends BaseFragment implements
                 break;
         }
 
-        switch (settingsManager.getFolderBrowserFoldersSortOrder()) {
-            case SortManager.SortFolders.DEFAULT:
-                menu.findItem(R.id.sort_folder_default).setChecked(true);
-                break;
-            case SortManager.SortFolders.COUNT:
-                menu.findItem(R.id.sort_folder_count).setChecked(true);
-                break;
+        SortManager.SortFolders sortOrder = settingsManager.getFolderBrowserFoldersSortOrder();
+        if (sortOrder == SortManager.SortFolders.DEFAULT) {
+            menu.findItem(R.id.sort_folder_default).setChecked(true);
+        } else if (sortOrder == SortManager.SortFolders.COUNT) {
+            menu.findItem(R.id.sort_folder_count).setChecked(true);
         }
 
         menu.findItem(R.id.folder_home_dir).setIcon(fileBrowser.getHomeDirIcon());
@@ -462,12 +460,7 @@ public class FolderFragment extends BaseFragment implements
                                             break;
                                         }
                                     }
-                                    mediaManager.playAll(songs, index, true, () -> {
-                                        if (isAdded() && getContext() != null) {
-                                            // Todo: Show playback failed toast
-                                        }
-                                        return Unit.INSTANCE;
-                                    });
+                                    mediaManager.playAll(songs, index, true, () -> Unit.INSTANCE);
                                 },
                                 error -> LogUtils.logException(TAG, "Error playing all", error));
             } else {
@@ -484,11 +477,6 @@ public class FolderFragment extends BaseFragment implements
         FolderMenuUtils.INSTANCE.setupFolderMenu(menu, folderView.baseFileObject, playlistMenuHelper);
         menu.setOnMenuItemClickListener(FolderMenuUtils.INSTANCE.getFolderMenuClickListener(this, mediaManager, songsRepository, folderView, playlistManager, callbacks));
         menu.show();
-    }
-
-    @Override
-    public void onFileObjectCheckboxClick(CheckBox checkBox, FolderView folderView) {
-
     }
 
     public void changeBreadcrumbPath() {
@@ -534,13 +522,12 @@ public class FolderFragment extends BaseFragment implements
             contextualToolbarHelper.setCanChangeTitle(false);
 
             contextualToolbar.setOnMenuItemClickListener(menuItem -> {
-                switch (menuItem.getItemId()) {
-                    case R.id.done:
-                        contextualToolbarHelper.finish();
-                        showWhitelist(false);
-                        showBlacklist(false);
-                        adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-                        return true;
+                if (menuItem.getItemId() == R.id.done) {
+                    contextualToolbarHelper.finish();
+                    showWhitelist(false);
+                    showBlacklist(false);
+                    adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+                    return true;
                 }
                 return false;
             });
@@ -553,8 +540,8 @@ public class FolderFragment extends BaseFragment implements
             isShowingBlacklist = false;
         }
         Stream.of(adapter.items)
-                .filter(viewModel -> viewModel instanceof FolderView)
-                .forEach(viewModel -> ((FolderView) viewModel).setShowWhitelist(show));
+            .filter(FolderView.class::isInstance)
+            .forEach(viewModel -> ((FolderView) viewModel).setShowWhitelist(show));
         adapter.notifyItemRangeChanged(0, adapter.getItemCount(), 0);
         contextualToolbar.setTitle(R.string.whitelist_title);
     }
@@ -565,8 +552,8 @@ public class FolderFragment extends BaseFragment implements
             isShowingWhitelist = false;
         }
         Stream.of(adapter.items)
-                .filter(viewModel -> viewModel instanceof FolderView)
-                .forEach(viewModel -> ((FolderView) viewModel).setShowBlacklist(show));
+            .filter(FolderView.class::isInstance)
+            .forEach(viewModel -> ((FolderView) viewModel).setShowBlacklist(show));
         adapter.notifyItemRangeChanged(0, adapter.getItemCount(), 0);
         contextualToolbar.setTitle(R.string.blacklist_title);
     }
@@ -666,7 +653,6 @@ public class FolderFragment extends BaseFragment implements
 
         @Override
         public void onPlaybackFailed() {
-            // Todo: Improve error message
             Toast.makeText(getContext(), R.string.emptyplaylist, Toast.LENGTH_SHORT).show();
         }
 
@@ -700,11 +686,6 @@ public class FolderFragment extends BaseFragment implements
         @Override
         public void showSongInfo(Song song) {
             SongInfoDialog.Companion.newInstance(song).show(getChildFragmentManager());
-        }
-
-        @Override
-        public void onPlaylistItemsInserted() {
-
         }
 
         @Override

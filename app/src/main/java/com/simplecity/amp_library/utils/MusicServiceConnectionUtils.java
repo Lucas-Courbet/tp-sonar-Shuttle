@@ -17,7 +17,7 @@ public class MusicServiceConnectionUtils {
 
     public static LocalBinder serviceBinder = null;
 
-    private static final WeakHashMap<Context, ServiceBinder> connectionMap = new WeakHashMap<>();
+    private static final WeakMap<Context, ServiceBinder> connectionMap = new WeakMap<>();
 
     private MusicServiceConnectionUtils() {
 

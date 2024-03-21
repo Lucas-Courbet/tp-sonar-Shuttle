@@ -74,7 +74,7 @@ public class ShuttleApplication extends DaggerApplication {
 
     private RefWatcher refWatcher;
 
-    public static final Map<String, UserSelectedArtwork> userSelectedArtwork = new HashMap<>();
+    public static final Map<String, UserSelectedArtwork> userSelectedArtwork = new Map<>();
 
     private static Logger jaudioTaggerLogger1 = Logger.getLogger("org.jaudiotagger.audio");
     private static Logger jaudioTaggerLogger2 = Logger.getLogger("org.jaudiotagger");
@@ -294,19 +294,21 @@ public class ShuttleApplication extends DaggerApplication {
         });
     }
 
+    /**
+     * This observable emits a genre every 50ms. We then make a query against the genre database to populate the song count.
+       If the count is zero, then the genre can be deleted.
+       The reason for the delay is, on some slower devices, if the user has tons of genres, a ton of cursors get created.
+       If the maximum number of cursors is created (based on memory/processor speed or god knows what else), then the device
+       will start throwing CursorWindow exceptions, and the queries will slow down massively. This ends up making all queries slow.
+       his task isn't time critical, so we can afford to let it just casually do its job.
+     */
     @NonNull
     private Completable cleanGenres() {
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             return Completable.complete();
         }
-
-        // This observable emits a genre every 50ms. We then make a query against the genre database to populate the song count.
-        // If the count is zero, then the genre can be deleted.
-        // The reason for the delay is, on some slower devices, if the user has tons of genres, a ton of cursors get created.
-        // If the maximum number of cursors is created (based on memory/processor speed or god knows what else), then the device
-        // will start throwing CursorWindow exceptions, and the queries will slow down massively. This ends up making all queries slow.
-        // This task isn't time critical, so we can afford to let it just casually do its job.
+ 
         return SqlBriteUtils.createSingleList(this, Genre::new, Genre.getQuery())
                 .flatMapObservable(Observable::fromIterable)
                 .concatMap(genre -> Observable.just(genre).delay(50, TimeUnit.MILLISECONDS))

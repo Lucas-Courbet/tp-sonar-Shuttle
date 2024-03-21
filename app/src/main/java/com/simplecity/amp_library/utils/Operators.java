@@ -19,7 +19,7 @@ public class Operators {
 
     public static List<Album> songsToAlbums(List<Song> songs) {
 
-        HashMap<Long, Album> albumMap = new HashMap<>();
+        Map<Long, Album> albumMap = new Map<>();
 
         for (Song song : songs) {
 
@@ -59,7 +59,7 @@ public class Operators {
 
     public static List<AlbumArtist> albumsToAlbumArtists(List<Album> albums) {
 
-        HashMap<String, AlbumArtist> albumArtistMap = new HashMap<>();
+        Map<String, AlbumArtist> albumArtistMap = new Map<>();
 
         for (Album album : albums) {
 

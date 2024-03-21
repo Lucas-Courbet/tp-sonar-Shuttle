@@ -217,11 +217,7 @@ public class SafManager {
                             Log.w(TAG, "Unexpected external file dir: " + file.getAbsolutePath());
                         } else {
                             String path = file.getAbsolutePath().substring(0, index);
-                            try {
-                                path = new File(path).getCanonicalPath();
-                            } catch (IOException e) {
-                                // Keep non-canonical path.
-                            }
+                            path = getCanonicalPathSafely(path);
                             paths.add(path);
                         }
                     }
@@ -231,6 +227,15 @@ public class SafManager {
             Crashlytics.log("getExtSdCardPaths() failed. " + e.getMessage());
         }
         return paths;
+    }
+
+    private String getCanonicalPathSafely(String path) {
+        try {
+            return new File(path).getCanonicalPath();
+        } catch (IOException e) {
+            // Keep non-canonical path.
+            return path;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -254,9 +259,6 @@ public class SafManager {
             void onResult(@Nullable Uri treeUri);
         }
 
-        public SafDialog() {
-
-        }
 
         public static <T extends AppCompatActivity & SafResultListener> void show(T activity) {
             new SafDialog().show(activity.getSupportFragmentManager(), TAG);
