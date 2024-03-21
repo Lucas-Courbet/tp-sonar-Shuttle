@@ -362,7 +362,7 @@ public class MediaManager {
         if (MusicServiceConnectionUtils.serviceBinder != null && MusicServiceConnectionUtils.serviceBinder.getService() != null) {
             return MusicServiceConnectionUtils.serviceBinder.getService().getQueue();
         }
-        return new ArrayList<>();
+        return new List<>();
     }
 
     public int getQueuePosition() {

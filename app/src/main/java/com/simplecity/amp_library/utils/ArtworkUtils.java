@@ -180,7 +180,7 @@ public class ArtworkUtils {
      */
     @WorkerThread
     public static List<File> getAllFolderArtwork(@Nullable final String path) {
-        List<File> fileArray = new ArrayList<>();
+        List<File> fileArray = new List<>();
 
         if (path != null) {
             File[] files;

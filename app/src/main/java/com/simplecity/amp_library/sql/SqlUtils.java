@@ -46,7 +46,7 @@ public class SqlUtils {
 
     public static <T> List<T> createQuery(Context context, Function<Cursor, T> mapper, Query query) {
 
-        List<T> items = new ArrayList<>();
+        List<T> items = new List<>();
 
         Cursor cursor = createQuery(context, query);
 

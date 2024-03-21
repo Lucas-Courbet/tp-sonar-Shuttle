@@ -172,7 +172,7 @@ public final class ShuttleUtils {
 
         return Single.concat(observables)
                 .reduce((songs, songs2) -> {
-                    List<Song> allSongs = new ArrayList<>();
+                    List<Song> allSongs = new List<>();
                     allSongs.addAll(songs);
                     allSongs.addAll(songs2);
                     return allSongs;

@@ -56,7 +56,7 @@ public class MainActivity extends BaseActivity implements
 
     private static final String TAG = "MainActivity";
 
-    private List<BackPressListener> backPressListeners = new ArrayList<>();
+    private List<BackPressListener> backPressListeners = new List<>();
 
     private DrawerLayout drawerLayout;
 
@@ -226,7 +226,7 @@ public class MainActivity extends BaseActivity implements
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
                                 playlist -> {
-                                    mediaManager.playAll(songsRepository.getSongs(playlist).first(new ArrayList<>()),
+                                    mediaManager.playAll(songsRepository.getSongs(playlist).first(new List<>()),
                                             () -> {
                                                 // Todo: Show playback failure toast
                                                 return Unit.INSTANCE;

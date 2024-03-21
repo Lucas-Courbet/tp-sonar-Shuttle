@@ -68,7 +68,7 @@ public class SnowfallView extends View {
     /** Used to paint each snowflake */
     private final Paint snowPaint = new Paint(ANTI_ALIAS_FLAG);
     /** The snowflakes currently falling */
-    private final List<Snowflake> snowflakes = new ArrayList<>(0);
+    private final List<Snowflake> snowflakes = new List<>(0);
     /** Used to randomly generate snowflake params */
     private final Random snowRng = new SecureRandom();
     /** Used to delay snowfall */

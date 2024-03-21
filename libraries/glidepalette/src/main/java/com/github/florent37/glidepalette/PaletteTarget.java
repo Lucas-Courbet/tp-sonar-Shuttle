@@ -11,8 +11,8 @@ public class PaletteTarget {
     @BitmapPalette.Profile
     protected int paletteProfile = GlidePalette.Profile.VIBRANT;
 
-    protected ArrayList<Pair<View, Integer>> targetsBackground = new ArrayList<>();
-    protected ArrayList<Pair<TextView, Integer>> targetsText = new ArrayList<>();
+    protected List<Pair<View, Integer>> targetsBackground = new List<>();
+    protected List<Pair<TextView, Integer>> targetsText = new List<>();
 
     protected boolean targetCrossfade = false;
     protected int targetCrossfadeSpeed = DEFAULT_CROSSFADE_SPEED;

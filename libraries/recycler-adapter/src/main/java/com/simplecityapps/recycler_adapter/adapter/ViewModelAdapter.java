@@ -34,7 +34,7 @@ public class ViewModelAdapter extends RecyclerView.Adapter {
     /**
      * The dataset for this RecyclerView Adapter
      */
-    public List<ViewModel> items = new ArrayList<>();
+    public List<ViewModel> items = new List<>();
 
     @Override
     public int getItemViewType(int position) {

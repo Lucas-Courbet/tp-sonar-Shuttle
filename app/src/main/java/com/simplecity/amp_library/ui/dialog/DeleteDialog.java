@@ -84,9 +84,9 @@ public class DeleteDialog extends DialogFragment implements SafManager.SafDialog
     private List<Album> albums;
     private List<Song> songs;
 
-    private List<Song> songsForNormalDeletion = new ArrayList<>();
-    private List<DocumentFile> documentFilesForDeletion = new ArrayList<>();
-    private List<Song> songsForSafDeletion = new ArrayList<>();
+    private List<Song> songsForNormalDeletion = new List<>();
+    private List<DocumentFile> documentFilesForDeletion = new List<>();
+    private List<Song> songsForSafDeletion = new List<>();
 
     private CompositeDisposable disposables = new CompositeDisposable();
 
@@ -159,7 +159,7 @@ public class DeleteDialog extends DialogFragment implements SafManager.SafDialog
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-        List<String> names = new ArrayList<>();
+        List<String> names = new List<>();
         switch (type) {
             case Type.ARTISTS:
                 names = Stream.of(artists).map(albumArtist -> albumArtist.name).toList();
@@ -328,7 +328,7 @@ public class DeleteDialog extends DialogFragment implements SafManager.SafDialog
         mediaManager.removeSongsFromQueue(deletedSongs);
 
         // Remove songs from play count table
-        ArrayList<ContentProviderOperation> operations = Stream.of(deletedSongs).map(song -> ContentProviderOperation
+        List<ContentProviderOperation> operations = Stream.of(deletedSongs).map(song -> ContentProviderOperation
                 .newDelete(PlayCountTable.URI)
                 .withSelection(PlayCountTable.COLUMN_ID + "=" + song.id, null)
                 .build())

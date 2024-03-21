@@ -204,7 +204,7 @@ public class FileHelper {
      */
     public static Observable<List<String>> getPathList(final File file, final boolean recursive, final boolean inSameDir) {
         return Observable.fromCallable(
-                () -> walk(file, new ArrayList<>(), recursive, inSameDir))
+                () -> walk(file, new List<>(), recursive, inSameDir))
                 .subscribeOn(Schedulers.io());
     }
 
@@ -218,7 +218,7 @@ public class FileHelper {
      */
     public static Single<List<Song>> getSongList(Repository.SongsRepository songsRepository, File file, boolean recursive, boolean inSameDir) {
         return Single.fromCallable(
-                () -> walk(file, new ArrayList<>(), recursive, inSameDir))
+                () -> walk(file, new List<>(), recursive, inSameDir))
                 .flatMap(filePaths -> songsRepository.getSongs(song -> song.path.contains(FileHelper.getPath(inSameDir ? file.getParentFile() : file)))
                         .first(Collections.emptyList()))
                 .subscribeOn(Schedulers.io());

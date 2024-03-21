@@ -210,7 +210,7 @@ class SearchFragment :
     override fun setData(searchResult: SearchResult) {
         val prefix = query.toUpperCase().toCharArray()
 
-        val viewModels = ArrayList<ViewModel<*>>()
+        val viewModels = List<ViewModel<*>>()
 
         if (!searchResult.albumArtists.isEmpty()) {
             viewModels.add(artistsHeader)
@@ -377,7 +377,7 @@ class SearchFragment :
 
     private fun pushDetailFragment(fragment: Fragment, transitionView: View?) {
 
-        val transitions = ArrayList<Pair<View, String>>()
+        val transitions = List<Pair<View, String>>()
 
         if (transitionView != null) {
             val transitionName = ViewCompat.getTransitionName(transitionView)

@@ -20,7 +20,7 @@ class LastFmTrack implements LastFmResult {
             public TrackAlbum album;
 
             @SerializedName("image")
-            public List<LastFmImage> images = new ArrayList<>();
+            public List<LastFmImage> images = new List<>();
         }
     }
 

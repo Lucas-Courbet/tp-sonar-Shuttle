@@ -142,7 +142,7 @@ public class DrawerParent implements Parent<DrawerChild> {
     @DrawableRes
     private int iconResId;
 
-    List<DrawerChild> children = new ArrayList<>();
+    List<DrawerChild> children = new List<>();
 
     private boolean isSelected;
 

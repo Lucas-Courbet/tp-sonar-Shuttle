@@ -286,7 +286,7 @@ public class LibraryController extends BaseFragment implements
 
     void pushDetailFragment(Fragment fragment, @Nullable View transitionView) {
 
-        List<Pair<View, String>> transitions = new ArrayList<>();
+        List<Pair<View, String>> transitions = new List<>();
 
         if (transitionView != null) {
             String transitionName = ViewCompat.getTransitionName(transitionView);

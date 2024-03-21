@@ -25,7 +25,7 @@ public class Album implements
     public long id;
     public String name;
 
-    public List<Artist> artists = new ArrayList<>();
+    public List<Artist> artists = new List<>();
     public String albumArtistName;
 
     public int year;
@@ -35,7 +35,7 @@ public class Album implements
     public long lastPlayed;
     public long dateAdded;
 
-    public List<String> paths = new ArrayList<>();
+    public List<String> paths = new List<>();
 
     public int songPlayCount;
 
@@ -65,14 +65,14 @@ public class Album implements
 
         private long id;
         private String name;
-        private List<Artist> artists = new ArrayList<>();
+        private List<Artist> artists = new List<>();
         private String albumArtistName;
         private int numSongs;
         private int numDiscs;
         private int year;
         private long lastPlayed;
         private long dateAdded;
-        private List<String> paths = new ArrayList<>();
+        private List<String> paths = new List<>();
         private int songPlayCount;
 
         public Builder id(long id) {

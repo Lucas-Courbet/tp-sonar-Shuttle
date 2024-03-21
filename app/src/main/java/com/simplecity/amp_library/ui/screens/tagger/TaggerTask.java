@@ -39,7 +39,7 @@ public class TaggerTask extends AsyncTask<Object, Integer, Boolean> {
 
     private List<String> paths;
     private List<DocumentFile> documentFiles;
-    private List<File> tempFiles = new ArrayList<>();
+    private List<File> tempFiles = new List<>();
 
     private String titleText;
     private String albumText;

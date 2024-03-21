@@ -104,15 +104,11 @@ public class MultiFetcher implements DataFetcher<InputStream> {
             }
         }
 
-        if (inputStream == null) {
-            if (allowOfflineDownload
-                    || (settingsManager.canDownloadArtworkAutomatically()
-                    && ShuttleUtils.isOnline(applicationContext, true))) {
-
-                //Last FM
-                dataFetcher = new RemoteFetcher(artworkProvider);
-                inputStream = loadData(dataFetcher, priority);
-            }
+        if (inputStream == null &&
+            (allowOfflineDownload || (settingsManager.canDownloadArtworkAutomatically() && ShuttleUtils.isOnline(applicationContext, true)))) {
+            //Last FM
+            dataFetcher = new RemoteFetcher(artworkProvider);
+            inputStream = loadData(dataFetcher, priority);
         }
         return inputStream;
     }

@@ -59,7 +59,7 @@ public abstract class BitmapPalette {
     protected String url;
 
     protected LinkedList<PaletteTarget> targets = new LinkedList<>();
-    protected ArrayList<BitmapPalette.CallBack> callbacks = new ArrayList<>();
+    protected List<BitmapPalette.CallBack> callbacks = new List<>();
     private PaletteBuilderInterceptor interceptor;
     private boolean skipCache;
 

@@ -28,7 +28,7 @@ public abstract class BaseNavigationController extends BaseController
 
     public abstract FragmentInfo getRootViewControllerInfo();
 
-    private List<BackPressListener> backPressListeners = new ArrayList<>();
+    private List<BackPressListener> backPressListeners = new List<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
