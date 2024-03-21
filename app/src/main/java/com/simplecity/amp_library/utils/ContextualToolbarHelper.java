@@ -102,6 +102,6 @@ public class ContextualToolbarHelper<T> {
     }
 
     public List<T> getItems() {
-        return new ArrayList<>(map.values());
+        return new List<>(map.values());
     }
 }

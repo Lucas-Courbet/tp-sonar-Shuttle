@@ -238,7 +238,7 @@ public class MusicService extends MediaBrowserServiceCompat {
     @Override
     public void onLoadChildren(@NonNull String parentMediaId, @NonNull Result<List<MediaBrowserCompat.MediaItem>> result) {
         if ("EMPTY_ROOT".equals(parentMediaId)) {
-            result.sendResult(new ArrayList<>());
+            result.sendResult(new List<>());
         } else {
             result.detach();
             // if music library is ready, return immediately

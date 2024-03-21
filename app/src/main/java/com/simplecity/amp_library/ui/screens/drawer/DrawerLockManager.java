@@ -12,7 +12,7 @@ public class DrawerLockManager {
 
     private static DrawerLockManager instance;
 
-    private List<DrawerLock> drawerLocks = new ArrayList<>();
+    private List<DrawerLock> drawerLocks = new List<>();
 
     @Nullable
     private DrawerLockController drawerLockController;

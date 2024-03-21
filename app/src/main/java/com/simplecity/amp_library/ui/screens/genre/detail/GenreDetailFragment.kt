@@ -489,7 +489,7 @@ class GenreDetailFragment :
 
     private fun pushDetailFragment(fragment: Fragment, transitionView: View?) {
 
-        val transitions = ArrayList<Pair<View, String>>()
+        val transitions = List<Pair<View, String>>()
 
         if (transitionView != null) {
             val transitionName = ViewCompat.getTransitionName(transitionView)
@@ -514,11 +514,11 @@ class GenreDetailFragment :
     }
 
     override fun setData(albums: List<Album>, songs: List<Song>) {
-        val viewModels = ArrayList<ViewModel<*>>()
+        val viewModels = List<ViewModel<*>>()
 
         if (!albums.isEmpty()) {
 
-            val items = ArrayList<ViewModel<*>>()
+            val items = List<ViewModel<*>>()
 
             setHorizontalItemsDisposable?.dispose()
             analyticsManager.dropBreadcrumb(TAG, "horizontalRecyclerView.setItems()")
@@ -536,7 +536,7 @@ class GenreDetailFragment :
         }
 
         if (!songs.isEmpty()) {
-            val items = ArrayList<ViewModel<*>>()
+            val items = List<ViewModel<*>>()
 
             items.add(SubheaderView(StringUtils.makeSongsAndTimeLabel(context!!, songs.size, Stream.of(songs).mapToLong { song -> song.duration / 1000 }.sum())))
 

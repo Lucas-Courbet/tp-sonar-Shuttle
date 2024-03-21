@@ -54,7 +54,7 @@ public class Operators {
             }
         }
 
-        return new ArrayList<>(albumMap.values());
+        return new List<>(albumMap.values());
     }
 
     public static List<AlbumArtist> albumsToAlbumArtists(List<Album> albums) {
@@ -79,7 +79,7 @@ public class Operators {
             }
         }
 
-        return new ArrayList<>(albumArtistMap.values());
+        return new List<>(albumArtistMap.values());
     }
 
     public static List<Song> albumShuffleSongs(List<Song> songs, SortManager sortManager) {
@@ -103,7 +103,7 @@ public class Operators {
                 lists -> Stream.of(lists)
                         .map(o -> (List<Song>) o)
                         .reduce((value1, value2) -> {
-                            List<Song> allSongs = new ArrayList<>();
+                            List<Song> allSongs = new List<>();
                             allSongs.addAll(value1);
                             allSongs.addAll(value2);
                             return allSongs;

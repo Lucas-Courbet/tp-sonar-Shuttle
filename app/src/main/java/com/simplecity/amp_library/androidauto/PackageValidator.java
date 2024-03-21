@@ -47,15 +47,15 @@ public class PackageValidator {
     /**
      * Map allowed callers' certificate keys to the expected caller information.
      */
-    private final Map<String, ArrayList<CallerInfo>> mValidCertificates;
+    private final Map<String, List<CallerInfo>> mValidCertificates;
 
     public PackageValidator(Context ctx) {
         mValidCertificates = readValidCertificates(ctx.getResources().getXml(
                 R.xml.allowed_media_browser_callers));
     }
 
-    private Map<String, ArrayList<CallerInfo>> readValidCertificates(XmlResourceParser parser) {
-        HashMap<String, ArrayList<CallerInfo>> validCertificates = new HashMap<>();
+    private Map<String, List<CallerInfo>> readValidCertificates(XmlResourceParser parser) {
+        HashMap<String, List<CallerInfo>> validCertificates = new HashMap<>();
         try {
             int eventType = parser.next();
             while (eventType != XmlResourceParser.END_DOCUMENT) {
@@ -69,9 +69,9 @@ public class PackageValidator {
 
                     CallerInfo info = new CallerInfo(name, packageName, isRelease);
 
-                    ArrayList<CallerInfo> infos = validCertificates.get(certificate);
+                    List<CallerInfo> infos = validCertificates.get(certificate);
                     if (infos == null) {
-                        infos = new ArrayList<>();
+                        infos = new List<>();
                         validCertificates.put(certificate, infos);
                     }
                     Log.v(TAG, String.format("Adding allowed caller: %s package=%s release=%s certificate=%s", info.name, info.packageName, info.release, certificate));
@@ -111,7 +111,7 @@ public class PackageValidator {
                 packageInfo.signatures[0].toByteArray(), Base64.NO_WRAP);
 
         // Test for known signatures:
-        ArrayList<CallerInfo> validCallers = mValidCertificates.get(signature);
+        List<CallerInfo> validCallers = mValidCertificates.get(signature);
         if (validCallers == null) {
             Log.v(TAG, "Signature for caller " + callingPackage + " is not valid: \n" + signature);
             if (mValidCertificates.isEmpty()) {

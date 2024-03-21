@@ -13,7 +13,7 @@ public class LastFmAlbum implements LastFmResult {
     public static class Album {
         public String name;
         @SerializedName("image")
-        public List<LastFmImage> images = new ArrayList<>();
+        public List<LastFmImage> images = new List<>();
         public Wiki wiki;
     }
 

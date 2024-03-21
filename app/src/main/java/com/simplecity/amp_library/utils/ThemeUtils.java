@@ -14,7 +14,7 @@ public class ThemeUtils {
 
     public static Theme getRandom() {
 
-        List<Theme> themes = new ArrayList<>();
+        List<Theme> themes = new List<>();
 
         themes.add(new Theme(0, "blue_500", "amber_300", false, R.color.md_blue_500, R.color.md_amber_300));
         themes.add(new Theme(1, "blue_500", "amber_300", true, R.color.md_blue_500, R.color.md_amber_300));

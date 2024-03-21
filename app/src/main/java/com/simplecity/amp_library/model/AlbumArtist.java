@@ -26,7 +26,7 @@ public class AlbumArtist implements
 
     public String name;
 
-    public List<Album> albums = new ArrayList<>();
+    public List<Album> albums = new List<>();
 
     private String sortKey;
 
@@ -63,7 +63,7 @@ public class AlbumArtist implements
 
     public static class Builder {
         private String name;
-        private List<Album> albums = new ArrayList<>();
+        private List<Album> albums = new List<>();
 
         public Builder name(String name) {
             this.name = name;

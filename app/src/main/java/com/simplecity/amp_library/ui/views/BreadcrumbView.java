@@ -77,7 +77,7 @@ public class BreadcrumbView extends RelativeLayout implements Breadcrumb, OnClic
      */
     private void init() {
         //Initialise the listeners
-        this.mBreadcrumbListeners = Collections.synchronizedList(new ArrayList<BreadcrumbListener>());
+        this.mBreadcrumbListeners = Collections.synchronizedList(new List<BreadcrumbListener>());
 
         //Add the view of the breadcrumb
         addView(inflate(getContext(), R.layout.breadcrumb_view, null));

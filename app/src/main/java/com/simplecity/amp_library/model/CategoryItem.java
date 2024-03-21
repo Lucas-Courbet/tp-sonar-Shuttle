@@ -43,7 +43,7 @@ public class CategoryItem {
     }
 
     public static List<CategoryItem> getCategoryItems(SharedPreferences sharedPreferences) {
-        List<CategoryItem> items = new ArrayList<>();
+        List<CategoryItem> items = new List<>();
         items.add(new CategoryItem(Type.GENRES, sharedPreferences));
         items.add(new CategoryItem(Type.SUGGESTED, sharedPreferences));
         items.add(new CategoryItem(Type.ARTISTS, sharedPreferences));

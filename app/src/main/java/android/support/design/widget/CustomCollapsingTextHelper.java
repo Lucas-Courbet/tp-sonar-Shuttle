@@ -96,10 +96,14 @@ public final class CustomCollapsingTextHelper {
     private Interpolator mPositionInterpolator;
     private Interpolator mTextSizeInterpolator;
 
-    private float mCollapsedShadowRadius, mCollapsedShadowDx, mCollapsedShadowDy;
+    private float mCollapsedShadowRadius;
+    private float mCollapsedShadowDx;
+    private float mCollapsedShadowDy;
     private int mCollapsedShadowColor;
 
-    private float mExpandedShadowRadius, mExpandedShadowDx, mExpandedShadowDy;
+    private float mExpandedShadowRadius;
+    private float mExpandedShadowDx;
+    private float mExpandedShadowDy;
     private int mExpandedShadowColor;
 
     private CharSequence mSub;
@@ -305,7 +309,7 @@ public final class CustomCollapsingTextHelper {
                 return Typeface.create(family, Typeface.NORMAL);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Unable to read font family typeface: " + resId);
+            throw new FontFamilyTypefaceException("Unable to read font family typeface: " + resId);
         } finally {
             a.recycle();
         }
@@ -494,7 +498,6 @@ public final class CustomCollapsingTextHelper {
         float textHeight = mTitlePaint.descent() - mTitlePaint.ascent();
         if (!TextUtils.isEmpty(mSub)) {
             float subHeight = mSubPaint.descent() - mSubPaint.ascent();
-            float subOffset = (subHeight / 2) - mSubPaint.descent();
             float offset = ((mCollapsedBounds.height() - (textHeight + subHeight)) / 3);
 
             mCollapsedDrawY = mCollapsedBounds.top + offset - mTitlePaint.ascent();
@@ -545,48 +548,33 @@ public final class CustomCollapsingTextHelper {
             float y = mCurrentDrawY;
             float subY = mCurrentSubY;
             final boolean drawTexture = mUseTexture && mExpandedTitleTexture != null;
-
             final float ascent;
             final float descent;
+
             if (drawTexture) {
                 ascent = mTextureAscent * mScale;
                 descent = mTextureDescent * mScale;
-            } else {
-                ascent = mTitlePaint.ascent() * mScale;
-                descent = mTitlePaint.descent() * mScale;
-            }
-
-            if (DEBUG_DRAW) {
-                // Just a debug tool, which drawn a magenta rect in the text bounds
-                canvas.drawRect(mCurrentBounds.left, y + ascent, mCurrentBounds.right, y + descent,
-                        DEBUG_DRAW_PAINT);
-            }
-
-            if (drawTexture) {
                 y += ascent;
-            }
-
-            //region modification
-            final int saveCountSub = canvas.save();
-            if (mSub != null) {
-                if (mSubScale != 1f) {
-                    canvas.scale(mSubScale, mSubScale, x, subY);
-                }
-                canvas.drawText(mSub, 0, mSub.length(), x, subY, mSubPaint);
-                canvas.restoreToCount(saveCountSub);
-            }
-            //endregion
-
-            if (mScale != 1f) {
-                canvas.scale(mScale, mScale, x, y);
-            }
-
-            if (drawTexture) {
                 // If we should use a texture, draw it instead of text
                 canvas.drawBitmap(mExpandedTitleTexture, x, y, mTexturePaint);
             } else {
+                ascent = mTitlePaint.ascent() * mScale;
+                descent = mTitlePaint.descent() * mScale;
                 canvas.drawText(mTextToDraw, 0, mTextToDraw.length(), x, y, mTitlePaint);
             }
+
+            if (DEBUG_DRAW)
+                canvas.drawRect(mCurrentBounds.left, y + ascent, mCurrentBounds.right, y + descent,
+                DEBUG_DRAW_PAINT);
+
+            if (mSub != null) {
+                if (mSubScale != 1f) canvas.scale(mSubScale, mSubScale, x, subY);
+                canvas.drawText(mSub, 0, mSub.length(), x, subY, mSubPaint);
+                canvas.restoreToCount(saveCount);
+            }
+            //endregion
+
+            if (mScale != 1f) canvas.scale(mScale, mScale, x, y);
         }
 
         canvas.restoreToCount(saveCount);
@@ -623,51 +611,43 @@ public final class CustomCollapsingTextHelper {
     //endregion
 
     private void calculateUsingTextSize(final float textSize) {
-        if (mText == null) return;
-
         final float collapsedWidth = mCollapsedBounds.width();
         final float expandedWidth = mExpandedBounds.width();
-
         final float availableWidth;
         final float newTextSize;
         boolean updateDrawText = false;
+        
+        if (mText == null) return;
 
         if (isClose(textSize, mCollapsedTextSize)) {
             newTextSize = mCollapsedTextSize;
             mScale = 1f;
+            availableWidth = collapsedWidth;
             if (mCurrentTypeface != mCollapsedTypeface) {
                 mCurrentTypeface = mCollapsedTypeface;
                 updateDrawText = true;
             }
-            availableWidth = collapsedWidth;
+
         } else {
+            final float textSizeRatio = mCollapsedTextSize / mExpandedTextSize;
+            final float scaledDownWidth = expandedWidth * textSizeRatio;
             newTextSize = mExpandedTextSize;
+            
             if (mCurrentTypeface != mExpandedTypeface) {
                 mCurrentTypeface = mExpandedTypeface;
                 updateDrawText = true;
             }
-            if (isClose(textSize, mExpandedTextSize)) {
-                // If we're close to the expanded text size, snap to it and use a scale of 1
-                mScale = 1f;
-            } else {
-                // Else, we'll scale down from the expanded text size
-                mScale = textSize / mExpandedTextSize;
-            }
+    
+            // If we're close to the expanded text size, snap to it and use a scale of 1
+            // Else, we'll scale down from the expanded text size
+            mScale = isClose(textSize, mExpandedTextSize) ? 1f : textSize / mExpandedTextSize;
 
-            final float textSizeRatio = mCollapsedTextSize / mExpandedTextSize;
-            // This is the size of the expanded bounds when it is scaled to match the
-            // collapsed text size
-            final float scaledDownWidth = expandedWidth * textSizeRatio;
-
-            if (scaledDownWidth > collapsedWidth) {
-                // If the scaled down size is larger than the actual collapsed width, we need to
-                // cap the available width so that when the expanded text scales down, it matches
-                // the collapsed width
-                availableWidth = Math.min(collapsedWidth / textSizeRatio, expandedWidth);
-            } else {
-                // Otherwise we'll just use the expanded width
-                availableWidth = expandedWidth;
-            }
+            // If the scaled down size is larger than the actual collapsed width, we need to
+            // cap the available width so that when the expanded text scales down, it matches the collapsed width
+            // Otherwise we'll just use the expanded width
+            availableWidth = (scaledDownWidth > collapsedWidth)
+                ? Math.min(collapsedWidth / textSizeRatio, expandedWidth)
+                : availableWidth = expandedWidth;
         }
 
         if (availableWidth > 0) {

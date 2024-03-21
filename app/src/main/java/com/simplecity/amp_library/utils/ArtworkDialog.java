@@ -67,7 +67,7 @@ public class ArtworkDialog {
             }
         };
 
-        List<ViewModel> viewModels = new ArrayList<>();
+        List<ViewModel> viewModels = new List<>();
 
         UserSelectedArtwork userSelectedArtwork = ((ShuttleApplication) context.getApplicationContext()).userSelectedArtwork.get(artworkProvider.getArtworkKey());
         if (userSelectedArtwork != null) {

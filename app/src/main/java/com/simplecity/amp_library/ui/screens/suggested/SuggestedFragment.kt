@@ -222,7 +222,7 @@ class SuggestedFragment :
 
     override fun setData(suggestedData: SuggestedData) {
 
-        val viewModels = ArrayList<ViewModel<*>>()
+        val viewModels = List<ViewModel<*>>()
 
         if (suggestedData.mostPlayedSongs.isNotEmpty()) {
             val mostPlayedHeader = SuggestedHeader(getString(string.mostplayed), getString(string.suggested_most_played_songs_subtitle), suggestedData.mostPlayedPlaylist)

@@ -43,8 +43,8 @@ public class FileBrowser {
 
         currentDir = directory;
 
-        List<BaseFileObject> folderObjects = new ArrayList<>();
-        List<BaseFileObject> fileObjects = new ArrayList<>();
+        List<BaseFileObject> folderObjects = new List<>();
+        List<BaseFileObject> fileObjects = new List<>();
 
         //Grab a list of all files/subdirs within the specified directory.
         File[] files = directory.listFiles(FileHelper.getAudioFilter());

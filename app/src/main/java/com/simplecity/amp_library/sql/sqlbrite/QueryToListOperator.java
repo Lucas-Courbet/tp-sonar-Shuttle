@@ -44,7 +44,7 @@ public final class QueryToListOperator<T> implements ObservableOperator<List<T>,
                 if (cursor == null || isDisposed()) {
                     return;
                 }
-                List<T> items = new ArrayList<>(cursor.getCount());
+                List<T> items = new List<>(cursor.getCount());
                 try {
                     while (cursor.moveToNext()) {
                         items.add(mapper.apply(cursor));

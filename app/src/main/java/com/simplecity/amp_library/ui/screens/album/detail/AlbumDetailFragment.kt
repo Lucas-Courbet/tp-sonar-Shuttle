@@ -424,7 +424,7 @@ class AlbumDetailFragment :
     // AlbumDetailView implementation
 
     override fun setData(data: MutableList<Song>) {
-        val viewModels = ArrayList<ViewModel<*>>()
+        val viewModels = List<ViewModel<*>>()
 
         val songsSortOrder = sortManager.albumDetailSongsSortOrder
 
@@ -433,7 +433,7 @@ class AlbumDetailFragment :
             viewModels.add(SubheaderView(StringUtils.makeSongsAndTimeLabel(context!!, data.size, data.map { song -> song.duration / 1000 }.sum())))
 
             viewModels.addAll(
-                ArrayList<ViewModel<*>>(
+                List<ViewModel<*>>(
                     data
                         .map { song ->
                             val songView = SongView(song, requestManager, sortManager, settingsManager)

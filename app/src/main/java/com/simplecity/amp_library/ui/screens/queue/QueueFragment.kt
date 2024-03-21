@@ -295,7 +295,7 @@ class QueueFragment :
                         )
                 )
 
-                val viewModels = ArrayList<ViewModel<*>>()
+                val viewModels = List<ViewModel<*>>()
                 viewModels.add(queueHeaderView)
 
                 viewModels.addAll(queueItems.map { song ->

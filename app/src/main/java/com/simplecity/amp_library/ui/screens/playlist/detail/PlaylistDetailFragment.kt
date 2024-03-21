@@ -387,10 +387,10 @@ class PlaylistDetailFragment :
     }
 
     override fun setData(data: MutableList<Song>) {
-        val viewModels = ArrayList<ViewModel<*>>()
+        val viewModels = List<ViewModel<*>>()
 
         if (!data.isEmpty()) {
-            val items = ArrayList<ViewModel<*>>()
+            val items = List<ViewModel<*>>()
 
             items.add(SubheaderView(StringUtils.makeSongsAndTimeLabel(context!!, data.size, data.map { song -> song.duration / 1000 }.sum())))
 

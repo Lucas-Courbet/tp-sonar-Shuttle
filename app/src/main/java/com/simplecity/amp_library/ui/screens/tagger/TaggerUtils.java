@@ -140,7 +140,7 @@ public class TaggerUtils {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     static String[] getExtSdCardPaths(Context context) {
-        List<String> paths = new ArrayList<>();
+        List<String> paths = new List<>();
         try {
             File[] externalFilesDirs = context.getExternalFilesDirs("external");
             if (externalFilesDirs != null && externalFilesDirs.length > 0) {

@@ -501,7 +501,7 @@ class ArtistDetailFragment :
 
     internal fun pushDetailFragment(fragment: Fragment, transitionView: View?) {
 
-        val transitions = ArrayList<Pair<View, String>>()
+        val transitions = List<Pair<View, String>>()
 
         if (transitionView != null) {
             val transitionName = ViewCompat.getTransitionName(transitionView)
@@ -521,11 +521,11 @@ class ArtistDetailFragment :
     // ArtistDetailView implementation
 
     override fun setData(albums: List<Album>, songs: List<Song>) {
-        val viewModels = ArrayList<ViewModel<*>>()
+        val viewModels = List<ViewModel<*>>()
 
         if (!albums.isEmpty()) {
 
-            val items = ArrayList<ViewModel<*>>()
+            val items = List<ViewModel<*>>()
 
             if (setHorizontalItemsDisposable != null) {
                 setHorizontalItemsDisposable!!.dispose()
@@ -546,7 +546,7 @@ class ArtistDetailFragment :
         }
 
         if (!songs.isEmpty()) {
-            val items = ArrayList<ViewModel<*>>()
+            val items = List<ViewModel<*>>()
 
             items.add(SubheaderView(StringUtils.makeSongsAndTimeLabel(context!!, songs.size, songs.map { song -> song.duration / 1000 }.sum())))
 

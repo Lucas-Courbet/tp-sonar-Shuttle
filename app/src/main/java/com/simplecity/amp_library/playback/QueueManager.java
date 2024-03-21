@@ -46,10 +46,10 @@ public class QueueManager {
     private final char hexDigits[] = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
     @NonNull
-    List<QueueItem> playlist = new ArrayList<>();
+    List<QueueItem> playlist = new List<>();
 
     @NonNull
-    List<QueueItem> shuffleList = new ArrayList<>();
+    List<QueueItem> shuffleList = new List<>();
 
     @ShuffleMode
     int shuffleMode = ShuffleMode.OFF;
@@ -490,7 +490,7 @@ public class QueueManager {
      * Converts a string representation of a playlist from SharedPrefs into a list of songs.
      */
     private List<QueueItem> deserializePlaylist(String listString, List<QueueItem> queueItems) {
-        List<Long> ids = new ArrayList<>();
+        List<Long> ids = new List<>();
         int n = 0;
         int shift = 0;
         for (int i = 0; i < listString.length(); i++) {
@@ -522,7 +522,7 @@ public class QueueManager {
             }
         });
 
-        return QueueItemKt.toQueueItems(new ArrayList<>(map.values()));
+        return QueueItemKt.toQueueItems(new List<>(map.values()));
     }
 
     void makeShuffleList() {
@@ -530,7 +530,7 @@ public class QueueManager {
             return;
         }
 
-        shuffleList = new ArrayList<>(playlist);
+        shuffleList = new List<>(playlist);
         QueueItem currentSong = null;
         if (queuePosition >= 0 && queuePosition < shuffleList.size()) {
             currentSong = shuffleList.remove(queuePosition);

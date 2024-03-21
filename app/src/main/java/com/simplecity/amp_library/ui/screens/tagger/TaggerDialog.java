@@ -60,8 +60,8 @@ public class TaggerDialog extends DialogFragment {
     private Album album;
     private Song song;
 
-    List<String> originalSongPaths = new ArrayList<>();
-    private List<DocumentFile> documentFiles = new ArrayList<>();
+    List<String> originalSongPaths = new List<>();
+    private List<DocumentFile> documentFiles = new List<>();
 
     private boolean showAlbum = true;
     private boolean showTrack = true;

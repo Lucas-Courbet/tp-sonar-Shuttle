@@ -85,7 +85,7 @@ public class SafManager {
      */
     public List<DocumentFile> getWriteableDocumentFiles(List<File> files) {
 
-        List<DocumentFile> documentFiles = new ArrayList<>();
+        List<DocumentFile> documentFiles = new List<>();
 
         String treeUri = getDocumentTree();
         if (treeUri == null) {
@@ -206,7 +206,7 @@ public class SafManager {
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private List<String> getExtSdCardPaths() {
-        List<String> paths = new ArrayList<>();
+        List<String> paths = new List<>();
         try {
             File[] externalFilesDirs = applicationContext.getExternalFilesDirs("external");
             if (externalFilesDirs != null && externalFilesDirs.length > 0) {

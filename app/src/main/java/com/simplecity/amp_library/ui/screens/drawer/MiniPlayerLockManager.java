@@ -11,7 +11,7 @@ public class MiniPlayerLockManager {
 
     private static MiniPlayerLockManager instance;
 
-    private List<MiniPlayerLock> miniPlayerLocks = new ArrayList<>();
+    private List<MiniPlayerLock> miniPlayerLocks = new List<>();
 
     private MiniPlayerLockManager() {
 

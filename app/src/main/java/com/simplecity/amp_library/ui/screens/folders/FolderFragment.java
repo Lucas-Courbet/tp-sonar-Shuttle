@@ -372,7 +372,7 @@ public class FolderFragment extends BaseFragment implements
                 Single.fromCallable(() -> {
                     final String path = FileHelper.getPath(newDir);
                     if (TextUtils.isEmpty(path)) {
-                        return new ArrayList<>();
+                        return new List<>();
                     }
                     currentDir = path;
                     return fileBrowser.loadDir(new File(path));

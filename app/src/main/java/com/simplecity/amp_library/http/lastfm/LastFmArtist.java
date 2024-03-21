@@ -13,7 +13,7 @@ public class LastFmArtist implements LastFmResult {
     public static class Artist {
         public String name;
         @SerializedName("image")
-        public List<LastFmImage> images = new ArrayList<>();
+        public List<LastFmImage> images = new List<>();
         public Bio bio;
     }
 
