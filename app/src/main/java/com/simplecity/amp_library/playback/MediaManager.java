@@ -28,16 +28,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class MediaManager {
 
-    public interface Defs {
-
-        int ADD_TO_PLAYLIST = 0;
-        int PLAYLIST_SELECTED = 1;
-        int NEW_PLAYLIST = 2;
-    }
-
     private AnalyticsManager analyticsManager;
-
     private SettingsManager settingsManager;
+    private final Random random = new Random();
 
     @Inject
     public MediaManager(AnalyticsManager analyticsManager, SettingsManager settingsManager) {
@@ -91,7 +84,7 @@ public class MediaManager {
         analyticsManager.dropBreadcrumb(TAG, "shuffleAll()");
         setShuffleMode(QueueManager.ShuffleMode.ON);
         if (!songs.isEmpty()) {
-            playAll(songs, new Random().nextInt(songs.size()), false, onEmpty);
+            playAll(songs, random.nextInt(songs.size()), false, onEmpty);
         }
     }
 
@@ -183,11 +176,8 @@ public class MediaManager {
      */
     public void togglePlayback() {
         analyticsManager.dropBreadcrumb(TAG, "playOrPause()");
-        try {
-            if (MusicServiceConnectionUtils.serviceBinder != null && MusicServiceConnectionUtils.serviceBinder.getService() != null) {
-                MusicServiceConnectionUtils.serviceBinder.getService().togglePlayback();
-            }
-        } catch (final Exception ignored) {
+        if (MusicServiceConnectionUtils.serviceBinder != null && MusicServiceConnectionUtils.serviceBinder.getService() != null) {
+            MusicServiceConnectionUtils.serviceBinder.getService().togglePlayback();
         }
     }
 
@@ -205,12 +195,9 @@ public class MediaManager {
      * which contains the current song.
      */
     public AlbumArtist getAlbumArtist() {
-        if (MusicServiceConnectionUtils.serviceBinder != null && MusicServiceConnectionUtils.serviceBinder.getService() != null) {
-            if (getSong() != null) {
-                return getSong().getAlbumArtist();
-            }
-        }
-        return null;
+        if (getSong == null) return null;
+        if (MusicServiceConnectionUtils.serviceBinder != null && MusicServiceConnectionUtils.serviceBinder.getService() != null)
+            return getSong().getAlbumArtist();
     }
 
     /**
@@ -219,12 +206,9 @@ public class MediaManager {
      * @return a partial {@link Album} containing this song.
      */
     public Album getAlbum() {
-        if (MusicServiceConnectionUtils.serviceBinder != null && MusicServiceConnectionUtils.serviceBinder.getService() != null) {
-            if (getSong() != null) {
-                return getSong().getAlbum();
-            }
-        }
-        return null;
+        if (getSong == null) return null;
+        if (MusicServiceConnectionUtils.serviceBinder != null && MusicServiceConnectionUtils.serviceBinder.getService() != null)
+            return getSong().getAlbum();
     }
 
     @Nullable
@@ -237,11 +221,9 @@ public class MediaManager {
 
     @NonNull
     public Single<Genre> getGenre(ShuttleApplication application) {
-        if (MusicServiceConnectionUtils.serviceBinder != null && MusicServiceConnectionUtils.serviceBinder.getService() != null) {
-            if (getSong() != null) {
-                return getSong().getGenre(application);
-            }
-        }
+        if (getSong() == null) return null;
+        if (MusicServiceConnectionUtils.serviceBinder != null && MusicServiceConnectionUtils.serviceBinder.getService() != null)
+            return getSong().getGenre(application);
         return Single.error(new IllegalStateException("Genre not found"));
     }
 

@@ -42,7 +42,7 @@ public class ArtworkView extends BaseViewModel<ArtworkView.ViewHolder> {
 
     GlideListener glideListener;
 
-    public File file;
+    private File file;
 
     private boolean selected;
 
@@ -116,12 +116,9 @@ public class ArtworkView extends BaseViewModel<ArtworkView.ViewHolder> {
                 .listener(new RequestListener<ArtworkProvider, BitmapAndSize>() {
                     @Override
                     public boolean onException(Exception e, ArtworkProvider model, Target<BitmapAndSize> target, boolean isFirstResource) {
-                        if (glideListener != null) {
-                            if (holder.itemView.getHandler() != null) {
-                                holder.itemView.getHandler().postDelayed(() ->
-                                        glideListener.onArtworkLoadFailed(ArtworkView.this), System.currentTimeMillis() + 1000 - time);
-                            }
-                        }
+                        if (glideListener != null && holder.itemView.getHandler() != null)
+                            holder.itemView.getHandler().postDelayed(() ->
+                            glideListener.onArtworkLoadFailed(ArtworkView.this), System.currentTimeMillis() + 1000 - time);
                         return false;
                     }
 
@@ -130,7 +127,7 @@ public class ArtworkView extends BaseViewModel<ArtworkView.ViewHolder> {
                         return false;
                     }
                 })
-                .into(new ImageViewTarget<BitmapAndSize>(((ViewHolder) holder).imageView) {
+                .into(new ImageViewTarget<BitmapAndSize>(holder).imageView) {
                     @Override
                     protected void setResource(BitmapAndSize resource) {
                         holder.textContainer.setBackgroundResource(R.drawable.text_protection_scrim_reversed);

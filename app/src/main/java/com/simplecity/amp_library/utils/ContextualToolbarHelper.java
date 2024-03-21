@@ -21,7 +21,7 @@ public class ContextualToolbarHelper<T> {
 
     private Context applicationContext;
 
-    private final Map<SelectableViewModel, T> map = new LinkedHashMap<>(0);
+    private final Map<SelectableViewModel, T> map = new LinkedMap<>(0);
 
     @NonNull
     private final ContextualToolbar contextualToolbar;

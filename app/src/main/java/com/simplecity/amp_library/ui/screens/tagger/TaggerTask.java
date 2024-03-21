@@ -9,6 +9,8 @@ import io.reactivex.annotations.NonNull;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import org.jaudiotagger.audio.AudioFile;
@@ -92,17 +94,16 @@ public class TaggerTask extends AsyncTask<Object, Integer, Boolean> {
 
         boolean requiresPermission = TaggerUtils.requiresPermission(applicationContext, paths);
 
-        for (int i = 0; i < paths.size(); i++) {
+        boolean shouldContinue = true;
+        for (int i = 0; i < paths.size() && shouldContinue; i++) {
             final String path = paths.get(i);
-            try {
-
-                File orig = new File(path);
-                AudioFile audioFile = AudioFileIO.read(orig);
+            try (AudioFile audioFile = AudioFileIO.read(new File(path))) {
                 Tag tag = audioFile.getTag();
                 if (tag == null) {
-                    break;
+                    shouldContinue = false;
+                    continue;
                 }
-
+        
                 TagUpdate tagUpdate = new TagUpdate(tag);
 
                 tagUpdate.softSetArtist(artistText);
@@ -151,7 +152,8 @@ public class TaggerTask extends AsyncTask<Object, Integer, Boolean> {
                                 TaggerUtils.copyFile(temp, fileOutputStream);
                                 pfd.close();
                             }
-                            if (temp.delete()) {
+                            try {
+                                Files.delete(Paths.get(temp.getPath()));
                                 if (tempFiles.contains(temp)) {
                                     tempFiles.remove(temp);
                                 }

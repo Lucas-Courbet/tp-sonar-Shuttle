@@ -17,7 +17,7 @@ import static com.simplecity.amp_library.ui.adapters.ViewType.HORIZONTAL_RECYCLE
 
 public class HorizontalRecyclerView extends BaseViewModel<HorizontalRecyclerView.ViewHolder> {
 
-    public ViewModelAdapter viewModelAdapter;
+    private ViewModelAdapter viewModelAdapter;
 
     public HorizontalRecyclerView(String tag) {
         this.viewModelAdapter = new ViewModelAdapter();

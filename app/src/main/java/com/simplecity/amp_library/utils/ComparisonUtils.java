@@ -13,11 +13,23 @@ public class ComparisonUtils {
     }
 
     public static int compareLong(long x, long y) {
-        return (x < y) ? -1 : ((x == y) ? 0 : 1);
+        if (x < y) {
+            return -1;
+        } else if (x == y) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     public static int compareInt(int x, int y) {
-        return (x < y) ? -1 : ((x == y) ? 0 : 1);
+        if (x < y) {
+            return -1;
+        } else if (x == y) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     /**
