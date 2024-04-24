@@ -25,6 +25,8 @@ import static android.os.Build.VERSION_CODES.KITKAT;
  */
 public class InputMethodManagerLeaks {
 
+    private InputMethodManagerLeaks() {}
+
     static class ReferenceCleaner
             implements MessageQueue.IdleHandler, View.OnAttachStateChangeListener,
             ViewTreeObserver.OnGlobalFocusChangeListener {
@@ -52,10 +54,6 @@ public class InputMethodManagerLeaks {
             }
             Looper.myQueue().removeIdleHandler(this);
             newFocus.addOnAttachStateChangeListener(this);
-        }
-
-        @Override
-        public void onViewAttachedToWindow(View v) {
         }
 
         @Override
@@ -156,27 +154,17 @@ public class InputMethodManagerLeaks {
         final Field mServedViewField;
         final Field mHField;
         final Method finishInputLockedMethod;
-        final Method focusInMethod;
         try {
             mServedViewField = InputMethodManager.class.getDeclaredField("mServedView");
-            mServedViewField.setAccessible(true);
             mHField = InputMethodManager.class.getDeclaredField("mServedView");
-            mHField.setAccessible(true);
             finishInputLockedMethod = InputMethodManager.class.getDeclaredMethod("finishInputLocked");
-            finishInputLockedMethod.setAccessible(true);
             focusInMethod = InputMethodManager.class.getDeclaredMethod("focusIn", View.class);
-            focusInMethod.setAccessible(true);
         } catch (NoSuchMethodException | NoSuchFieldException unexpected) {
             Log.e("IMMLeaks", "Unexpected reflection exception", unexpected);
             return;
         }
 
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
-            }
-
             @Override
             public void onActivityStarted(Activity activity) {
                 ReferenceCleaner cleaner =
@@ -186,31 +174,6 @@ public class InputMethodManagerLeaks {
                 ViewTreeObserver viewTreeObserver = rootView.getViewTreeObserver();
                 viewTreeObserver.addOnGlobalFocusChangeListener(cleaner);
             }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-
-            }
-        });
+        );
     }
 }

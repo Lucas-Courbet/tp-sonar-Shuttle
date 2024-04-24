@@ -6,6 +6,8 @@ import com.simplecity.amp_library.ShuttleApplication;
 
 public class ColorPalette {
 
+    private ColorPalette() {}
+
     public static int[] getPrimaryColors(Context context, SettingsManager settingsManager) {
         return ShuttleUtils.isUpgraded((ShuttleApplication) context.getApplicationContext(), settingsManager) ? PRIMARY_COLORS : PRIMARY_COLORS_FREE;
     }
@@ -14,7 +16,7 @@ public class ColorPalette {
         return ShuttleUtils.isUpgraded((ShuttleApplication) context.getApplicationContext(), settingsManager) ? PRIMARY_COLORS_SUB : PRIMARY_COLORS_SUB_FREE;
     }
 
-    private final static int[] PRIMARY_COLORS = new int[] {
+    private static final int[] PRIMARY_COLORS = new int[] {
             Color.parseColor("#F44336"),
             Color.parseColor("#E91E63"),
             Color.parseColor("#9C27B0"),
@@ -36,7 +38,7 @@ public class ColorPalette {
             Color.parseColor("#607D8B")
     };
 
-    private final static int[][] PRIMARY_COLORS_SUB = new int[][] {
+    private static final int[][] PRIMARY_COLORS_SUB = new int[][] {
             new int[] {
                     Color.parseColor("#FFEBEE"),
                     Color.parseColor("#FFCDD2"),

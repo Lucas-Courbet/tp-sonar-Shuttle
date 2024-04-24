@@ -33,8 +33,7 @@ public class MenuUtils {
     private MenuUtils() {
         //no instance
     }
-
-    // Todo: Remove context requirement
+    
     public static void addToPlaylist(PlaylistManager playlistManager, Playlist playlist, List<Song> songs, Function1<Integer, Unit> insertCallback) {
         playlistManager.addToPlaylist(playlist, songs, insertCallback);
     }
@@ -119,7 +118,6 @@ public class MenuUtils {
     }
 
     /**
-     * Todo: Remove context requirement
      * Add the passed in songs to a new playlist. The 'create playlist dialog' will be presented to the user.
      *
      * @param single the songs to be added to the playlist

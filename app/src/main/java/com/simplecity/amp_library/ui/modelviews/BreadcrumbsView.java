@@ -69,7 +69,7 @@ public class BreadcrumbsView extends BaseViewModel<BreadcrumbsView.ViewHolder> {
 
     public static class ViewHolder extends BaseViewHolder<BreadcrumbsView> {
 
-        public BreadcrumbView breadcrumbView;
+        private BreadcrumbView breadcrumbView;
 
         public ViewHolder(View itemView) {
             super(itemView);

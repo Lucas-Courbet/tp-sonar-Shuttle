@@ -25,7 +25,7 @@ public class PlaylistView extends BaseViewModel<PlaylistView.ViewHolder> {
         void onPlaylistOverflowClick(int position, View v, Playlist playlist);
     }
 
-    public Playlist playlist;
+    private Playlist playlist;
 
     @Nullable
     private OnClickListener listener;
@@ -75,9 +75,8 @@ public class PlaylistView extends BaseViewModel<PlaylistView.ViewHolder> {
 
     public static class ViewHolder extends BaseViewHolder<PlaylistView> {
 
-        public TextView lineOne;
-        public NonScrollImageButton overflowButton;
-        public PlaylistClickListener listener;
+        private TextView lineOne;
+        private NonScrollImageButton overflowButton;
 
         public ViewHolder(View itemView) {
             super(itemView);

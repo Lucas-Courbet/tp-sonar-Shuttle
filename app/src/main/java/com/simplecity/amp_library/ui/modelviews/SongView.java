@@ -39,9 +39,7 @@ public class SongView extends BaseSelectableViewModel<SongView.ViewHolder> imple
         void onStartDrag(ViewHolder holder);
     }
 
-    private static final String TAG = "SongView";
-
-    public Song song;
+    private Song song;
 
     private RequestManager requestManager;
 
@@ -147,21 +145,32 @@ public class SongView extends BaseSelectableViewModel<SongView.ViewHolder> imple
         return editable ? R.layout.list_item_edit : R.layout.list_item_two_lines;
     }
 
-    @Override
     public void bindView(ViewHolder holder) {
         super.bindView(holder);
-
+        setSongName(holder);
+        setPlayCountVisibility(holder);
+        setArtistAndAlbumName(holder);
+        setDurationLabel(holder);
+        setArtworkVisibility(holder);
+        setOverflowButtonContentDescription(holder);
+        setPrefixHighlighting(holder);
+        setTrackNumberVisibility(holder);
+    }
+    
+    private void setSongName(ViewHolder holder) {
         holder.lineOne.setText(song.name);
-
+    }
+    
+    private void setPlayCountVisibility(ViewHolder holder) {
         if (holder.playCount != null) {
+            holder.playCount.setVisibility(showPlayCount && song.playCount > 1 ? View.VISIBLE : View.GONE);
             if (showPlayCount && song.playCount > 1) {
-                holder.playCount.setVisibility(View.VISIBLE);
                 holder.playCount.setCount(song.playCount);
-            } else {
-                holder.playCount.setVisibility(View.GONE);
             }
         }
-
+    }
+    
+    private void setArtistAndAlbumName(ViewHolder holder) {
         if (showArtistName && showAlbumName) {
             holder.lineTwo.setText(String.format("%s - %s", song.artistName, song.albumName));
             holder.lineTwo.setVisibility(View.VISIBLE);
@@ -171,34 +180,40 @@ public class SongView extends BaseSelectableViewModel<SongView.ViewHolder> imple
         } else {
             holder.lineTwo.setVisibility(View.GONE);
         }
-
+    }
+    
+    private void setDurationLabel(ViewHolder holder) {
         holder.lineThree.setText(song.getDurationLabel(holder.itemView.getContext()));
-
+    }
+    
+    private void setArtworkVisibility(ViewHolder holder) {
         if (holder.artwork != null) {
+            holder.artwork.setVisibility(showAlbumArt && settingsManager.showArtworkInQueue() ? View.VISIBLE : View.GONE);
             if (showAlbumArt && settingsManager.showArtworkInQueue()) {
-                holder.artwork.setVisibility(View.VISIBLE);
                 requestManager.load(song)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .placeholder(PlaceholderProvider.getInstance(holder.itemView.getContext()).getPlaceHolderDrawable(song.albumName, false, settingsManager))
                         .into(holder.artwork);
-            } else {
-                holder.artwork.setVisibility(View.GONE);
             }
         }
-
+    }
+    
+    private void setOverflowButtonContentDescription(ViewHolder holder) {
         holder.overflowButton.setContentDescription(holder.itemView.getResources().getString(R.string.btn_options, song.name));
-
+    }
+    
+    private void setPrefixHighlighting(ViewHolder holder) {
         if (prefixHighlighter != null) {
             prefixHighlighter.setText(holder.lineOne, prefix);
             prefixHighlighter.setText(holder.lineTwo, prefix);
         }
-
+    }
+    
+    private void setTrackNumberVisibility(ViewHolder holder) {
         if (holder.trackNumber != null) {
+            holder.trackNumber.setVisibility(showTrackNumber ? View.VISIBLE : View.GONE);
             if (showTrackNumber) {
-                holder.trackNumber.setVisibility(View.VISIBLE);
                 holder.trackNumber.setText(String.valueOf(song.track));
-            } else {
-                holder.trackNumber.setVisibility(View.GONE);
             }
         }
     }
@@ -252,6 +267,7 @@ public class SongView extends BaseSelectableViewModel<SongView.ViewHolder> imple
                 case SortManager.SongSort.ARTIST_NAME:
                     string = StringUtils.keyFor(song.artistName);
                     break;
+                default break;
             }
 
             if (requiresSubstring) {

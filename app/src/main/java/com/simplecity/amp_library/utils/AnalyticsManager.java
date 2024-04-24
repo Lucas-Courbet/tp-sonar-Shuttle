@@ -15,8 +15,6 @@ import javax.inject.Singleton;
 @Singleton
 public class AnalyticsManager {
 
-    private static final String TAG = "AnalyticsManager";
-
     private Context context;
 
     @Inject

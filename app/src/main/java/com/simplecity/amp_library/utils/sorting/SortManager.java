@@ -201,34 +201,36 @@ public class SortManager {
         return mPrefs.getBoolean(Key.GENRE_DETAIL_ALBUMS_ASC, true);
     }
 
-    static int PREF_VERSION = 0;
+    static int prefVersion = 0;
 
-    public interface Key {
-        String ARTISTS = "key_artists_sort_order_" + PREF_VERSION;
-        String ALBUMS = "key_albums_sort_order_" + PREF_VERSION;
-        String SONGS = "key_songs_sort_order_" + PREF_VERSION;
+    public class SortKeys {
+        public static final String ARTISTS = "key_artists_sort_order_" + prefVersion;
+        public static final String ALBUMS = "key_albums_sort_order_" + prefVersion;
+        public static final String SONGS = "key_songs_sort_order_" + prefVersion;
 
-        String ARTIST_DETAIL_ALBUMS = "key_detail_albums_sort_order_" + PREF_VERSION;
-        String PLAYLIST_DETAIL_ALBUMS = "key_detail_playlist_albums_sort_order_" + PREF_VERSION;
-        String GENRE_DETAIL_ALBUMS = "key_genre_albums_sort_order_" + PREF_VERSION;
+        public static final String ARTIST_DETAIL_ALBUMS = "key_detail_albums_sort_order_" + prefVersion;
+        public static final String PLAYLIST_DETAIL_ALBUMS = "key_detail_playlist_albums_sort_order_" + prefVersion;
+        public static final String GENRE_DETAIL_ALBUMS = "key_genre_albums_sort_order_" + prefVersion;
 
-        String ARTIST_DETAIL_SONGS = "key_detail_songs_sort_order_" + PREF_VERSION;
-        String ALBUM_DETAIL_SONGS = "key_detail_album_songs_sort_order_" + PREF_VERSION;
-        String PLAYLIST_DETAIL_SONGS = "key_detail_playlist_songs_sort_order_" + PREF_VERSION;
-        String GENRE_DETAIL_SONGS = "key_genre_songs_sort_order_" + PREF_VERSION;
+        public static final String ARTIST_DETAIL_SONGS = "key_detail_songs_sort_order_" + prefVersion;
+        public static final String ALBUM_DETAIL_SONGS = "key_detail_album_songs_sort_order_" + prefVersion;
+        public static final String PLAYLIST_DETAIL_SONGS = "key_detail_playlist_songs_sort_order_" + prefVersion;
+        public static final String GENRE_DETAIL_SONGS = "key_genre_songs_sort_order_" + prefVersion;
 
-        String ARTISTS_ASC = "key_artists_sort_order_asc_" + PREF_VERSION;
-        String ALBUMS_ASC = "key_albums_sort_order_asc_" + PREF_VERSION;
-        String SONGS_ASC = "key_songs_sort_order_asc_" + PREF_VERSION;
+        public static final String ARTISTS_ASC = "key_artists_sort_order_asc_" + prefVersion;
+        public static final String ALBUMS_ASC = "key_albums_sort_order_asc_" + prefVersion;
+        public static final String SONGS_ASC = "key_songs_sort_order_asc_" + prefVersion;
 
-        String ARTIST_DETAIL_SONGS_ASC = "key_artist_detail_songs_sort_order_asc_" + PREF_VERSION;
-        String ALBUM_DETAIL_SONGS_ASC = "key_album_detail_songs_sort_order_asc_" + PREF_VERSION;
-        String PLAYLIST_DETAIL_SONGS_ASC = "key_playlist_songs_sort_order_asc_" + PREF_VERSION;
-        String GENRE_DETAIL_SONGS_ASC = "key_genre_songs_sort_order_asc_" + PREF_VERSION;
+        public static final String ARTIST_DETAIL_SONGS_ASC = "key_artist_detail_songs_sort_order_asc_" + prefVersion;
+        public static final String ALBUM_DETAIL_SONGS_ASC = "key_album_detail_songs_sort_order_asc_" + prefVersion;
+        public static final String PLAYLIST_DETAIL_SONGS_ASC = "key_playlist_songs_sort_order_asc_" + prefVersion;
+        public static final String GENRE_DETAIL_SONGS_ASC = "key_genre_songs_sort_order_asc_" + prefVersion;
 
-        String ARTIST_DETAIL_ALBUMS_ASC = "key_detail_albums_sort_order_asc_" + PREF_VERSION;
-        String PLAYLIST_DETAIL_ALBUMS_ASC = "key_detail_playlist_albums_sort_order_asc_" + PREF_VERSION;
-        String GENRE_DETAIL_ALBUMS_ASC = "key_detail_genre_albums_sort_order_asc_" + PREF_VERSION;
+        public static final String ARTIST_DETAIL_ALBUMS_ASC = "key_detail_albums_sort_order_asc_" + prefVersion;
+        public static final String PLAYLIST_DETAIL_ALBUMS_ASC = "key_detail_playlist_albums_sort_order_asc_" + prefVersion;
+        public static final String GENRE_DETAIL_ALBUMS_ASC = "key_detail_genre_albums_sort_order_asc_" + prefVersion;
+
+        private SortKeys() {}
     }
 
     public @interface ArtistSort {
@@ -255,18 +257,22 @@ public class SortManager {
         int DETAIL_DEFAULT = 8;
     }
 
-    public interface SortFiles {
-        String DEFAULT = "default";
-        String FILE_NAME = "file_name";
-        String SIZE = "size";
-        String ARTIST_NAME = "artist_name";
-        String ALBUM_NAME = "album_name";
-        String TRACK_NAME = "track_name";
+    public class SortFiles {
+        public static final String DEFAULT = "default";
+        public static final String FILE_NAME = "file_name";
+        public static final String SIZE = "size";
+        public static final String ARTIST_NAME = "artist_name";
+        public static final String ALBUM_NAME = "album_name";
+        public static final String TRACK_NAME = "track_name";
+
+        private SortFiles() {}
     }
 
-    public interface SortFolders {
-        String DEFAULT = "default";
-        String COUNT = "count";
+    public class SortFolders {
+        public static final String DEFAULT = "default";
+        public static final String COUNT = "count";
+
+        private SortFolders() {}
     }
 
     public void sortAlbums(List<Album> albums) {
@@ -288,6 +294,7 @@ public class SortManager {
             case AlbumSort.ARTIST_NAME:
                 Collections.sort(albums, (a, b) -> ComparisonUtils.compare(a.albumArtistName, b.albumArtistName));
                 break;
+            default break;
         }
     }
 
@@ -338,6 +345,7 @@ public class SortManager {
                 Collections.sort(songs, (a, b) -> ComparisonUtils.compareInt(a.discNumber, b.discNumber));
                 Collections.sort(songs, (a, b) -> ComparisonUtils.compare(a.albumName, b.albumName));
                 break;
+            default break;
         }
     }
 

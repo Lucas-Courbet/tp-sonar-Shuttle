@@ -3,7 +3,11 @@ package com.simplecity.amp_library.utils.color;
 import android.animation.TypeEvaluator;
 
 public class ArgbEvaluator implements TypeEvaluator {
-        private static final ArgbEvaluator sInstance = new ArgbEvaluator();
+        private static volatile ArgbEvaluator sInstance;
+
+        private ArgbEvaluator() {
+            // Private constructor
+        }
 
         /**
          * Returns an instance of <code>ArgbEvaluator</code> that may be used in
@@ -14,7 +18,12 @@ public class ArgbEvaluator implements TypeEvaluator {
          * @hide
          */
         public static ArgbEvaluator getInstance() {
-            return sInstance;
+            if (sInstance == null) {
+                synchronized (ArgbEvaluator.class) {
+                    if (sInstance == null) {
+                        sInstance = new ArgbEvaluator();
+                    }
+                }
         }
 
         /**
