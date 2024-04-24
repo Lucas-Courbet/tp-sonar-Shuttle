@@ -16,7 +16,7 @@ import com.simplecityapps.recycler_adapter.recyclerview.BaseViewHolder;
 
 public class QueuePagerItemView extends BaseViewModel<QueuePagerItemView.ViewHolder> {
 
-    public Song song;
+    private Song song;
     private RequestManager requestManager;
     private SettingsManager settingsManager;
 

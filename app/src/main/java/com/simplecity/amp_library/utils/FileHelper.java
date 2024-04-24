@@ -26,7 +26,7 @@ import java.util.NoSuchElementException;
 
 public class FileHelper {
 
-    private final static String TAG = "FileHelper";
+    private FileHelper() {}
 
     /**
      * The root directory
@@ -137,15 +137,10 @@ public class FileHelper {
 
         String filePath = file.getAbsolutePath();
 
-        try {
-            if (isSymlink(file)) {
-                file = resolveSymlink(file);
-                filePath = file.getAbsolutePath();
-            }
-        } catch (IOException ignored) {
-
+        if (isSymlink(file)) {
+            file = resolveSymlink(file);
+            filePath = file.getAbsolutePath();
         }
-
         if (!TextUtils.isEmpty(filePath) && filePath.equals("/storage/emulated/0") ||
                 filePath.equals("/storage/emulated/0/") ||
                 filePath.equals("/storage/emulated/legacy") ||
@@ -287,24 +282,6 @@ public class FileHelper {
         return DeleteRecursive(file);
     }
 
-    /**
-     * Recursively delete a File
-     *
-     * @param fileOrDirectory the file or directory to delete
-     * @return true id the deletion was successful
-     */
-    private static boolean DeleteRecursive(File fileOrDirectory) {
-        if (fileOrDirectory == null) {
-            return false;
-        } else if (fileOrDirectory.isDirectory()) {
-            File[] fileList = fileOrDirectory.listFiles();
-            if (fileList != null) {
-                for (File child : fileList)
-                    DeleteRecursive(child);
-            }
-        }
-        return fileOrDirectory.delete();
-    }
 
     /**
      * Renames an {@link FileObject} to the passed in newName
@@ -338,7 +315,7 @@ public class FileHelper {
     /**
      * An array of accepted/supported audio extensions.
      */
-    public static String[] sExtensions = new String[] {
+    private static String[] sExtensions = new String[] {
             "mp3", "3gp", "mp4", "m4a",
             "aac", "ts", "flac", "mid",
             "xmf", "mxmf", "midi", "rtttl",
@@ -350,22 +327,21 @@ public class FileHelper {
      * An {@link FileFilter} which only accepts directories & supported audio filetypes, based on extension
      */
     public static FileFilter getAudioFilter() {
-        return file -> {
-            if (!file.isHidden() && file.canRead()) {
-                if (file.isDirectory()) {
-                    return true;
-                } else {
-                    String ext = getExtension(file.getName());
-                    for (String allowedExtension : sExtensions) {
-                        if (!TextUtils.isEmpty(ext)) {
-                            if (allowedExtension.equalsIgnoreCase(ext)) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
+        return FileHelper::isValidFile;
+    }
+    
+    private static boolean isValidFile(File file) {
+        if (file.isHidden() || !file.canRead()) {
             return false;
-        };
+        }
+        if (file.isDirectory()) {
+            return true;
+        }
+        return isSupportedAudioFile(file);
+    }
+    
+    private static boolean isSupportedAudioFile(File file) {
+        String ext = getExtension(file.getName());
+        return sExtensions.contains(ext.toLowerCase());
     }
 }

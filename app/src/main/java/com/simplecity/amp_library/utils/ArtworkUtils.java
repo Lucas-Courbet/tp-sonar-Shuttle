@@ -30,7 +30,7 @@ import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 
-public class ArtworkUtils {
+public abstract class ArtworkUtils {
 
     private static final String TAG = "ArtworkUtils";
 
@@ -104,26 +104,15 @@ public class ArtworkUtils {
 
         FileInputStream fileInputStream = null;
 
-        Cursor cursor = context
+        try (Cursor cursor = context
                 .getContentResolver()
-                .query(contentUri, new String[] { MediaStore.Audio.Albums.ALBUM_ART }, null, null, null);
+                .query(contentUri, new String[] { MediaStore.Audio.Albums.ALBUM_ART }, null, null, null)) {
 
-        if (cursor != null) {
-            try {
-                if (cursor.moveToFirst()) {
-                    File file = new File(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART)));
+            if (cursor != null && cursor.moveToFirst()) {
+                File file = new File(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART)));
                     if (file.exists()) {
-                        try {
-                            fileInputStream = new FileInputStream(file);
-                        } catch (FileNotFoundException ignored) {
-
-                        }
+                        fileInputStream = new FileInputStream(file);
                     }
-                }
-            } catch (NullPointerException ignored) {
-
-            } finally {
-                cursor.close();
             }
         }
 
@@ -155,8 +144,7 @@ public class ArtworkUtils {
         InputStream inputStream = null;
 
         if (filePath != null) {
-            try {
-                AudioFile audioFIle = AudioFileIO.read(new File(filePath));
+            AudioFile audioFIle = AudioFileIO.read(new File(filePath));
                 if (audioFIle != null) {
                     Tag tag = audioFIle.getTag();
                     if (tag != null) {
@@ -166,9 +154,6 @@ public class ArtworkUtils {
                         }
                     }
                 }
-            } catch (CannotReadException | IOException | TagException | ReadOnlyFileException | InvalidAudioFrameException ignored) {
-
-            }
         }
 
         return inputStream;
@@ -180,21 +165,27 @@ public class ArtworkUtils {
      */
     @WorkerThread
     public static List<File> getAllFolderArtwork(@Nullable final String path) {
-        List<File> fileArray = new List<>();
+        if (path == null) {
+            return new ArrayList<>();
+        }
 
-        if (path != null) {
-            File[] files;
-            File parent = new File(path).getParentFile();
-            if (parent.exists() && parent.isDirectory()) {
-                final Pattern pattern = Pattern.compile("(folder|cover|album).*\\.(jpg|jpeg|png)", Pattern.CASE_INSENSITIVE);
-                files = parent.listFiles(file1 -> pattern.matcher(file1.getName()).matches());
+        File parent = new File(path).getParentFile();
+        if (!parent.exists() || !parent.isDirectory()) {
+            return new ArrayList<>();
+        }
 
-                if (files.length != 0) {
-                    for (File file : files) {
-                        if (file.exists()) {
-                            fileArray.add(file);
-                        }
-                    }
+        return getArtworkFiles(parent);
+    }
+
+    private static List<File> getArtworkFiles(File parent) {
+        final Pattern pattern = Pattern.compile("(folder|cover|album).*\\.(jpg|jpeg|png)", Pattern.CASE_INSENSITIVE);
+        File[] files = parent.listFiles(file1 -> pattern.matcher(file1.getName()).matches());
+
+        List<File> fileArray = new ArrayList<>();
+        if (files.length != 0) {
+            for (File file : files) {
+                if (file.exists()) {
+                    fileArray.add(file);
                 }
             }
         }

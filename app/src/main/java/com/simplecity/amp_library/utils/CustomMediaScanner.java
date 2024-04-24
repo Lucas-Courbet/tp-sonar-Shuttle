@@ -80,10 +80,8 @@ public class CustomMediaScanner implements MediaScannerConnection.MediaScannerCo
         connection.scanFile(path, null);
         nextPath++;
 
-        if (scanCompletionListener != null) {
-            if (handler != null) {
-                handler.post(() -> scanCompletionListener.onPathScanned(path));
-            }
+        if (handler != null && scanCompletionListener != null) {
+            handler.post(() -> scanCompletionListener.onPathScanned(path));
         }
 
         Log.d(TAG, "Scanning file: " + path);
@@ -112,7 +110,6 @@ public class CustomMediaScanner implements MediaScannerConnection.MediaScannerCo
         }
     }
 
-    // Todo: Remove context requirement
     public static Disposable scanFile(Context context, FolderObject folderObject) {
 
         @SuppressLint("InflateParams")
@@ -155,11 +152,6 @@ public class CustomMediaScanner implements MediaScannerConnection.MediaScannerCo
 
     public static void scanFile(Context context, String path, UnsafeConsumer<String> message) {
         CustomMediaScanner.scanFiles(context, Collections.singletonList(path), new CustomMediaScanner.ScanCompletionListener() {
-            @Override
-            public void onPathScanned(String path) {
-
-            }
-
             @Override
             public void onScanCompleted() {
                 message.accept(context.getString(R.string.scan_complete));

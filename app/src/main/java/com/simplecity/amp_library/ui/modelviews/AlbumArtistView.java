@@ -32,9 +32,7 @@ public class AlbumArtistView extends MultiItemView<AlbumArtistView.ViewHolder, A
         void onAlbumArtistOverflowClicked(View v, AlbumArtist albumArtist);
     }
 
-    private static final String TAG = "AlbumArtistView";
-
-    public AlbumArtist albumArtist;
+    private AlbumArtist albumArtist;
 
     private int viewType;
 
@@ -112,11 +110,8 @@ public class AlbumArtistView extends MultiItemView<AlbumArtistView.ViewHolder, A
             holder.albumCount.setVisibility(View.VISIBLE);
             holder.albumCount.setText(String.valueOf(albumArtist.getNumAlbums()));
         }
-
-        if (getViewType() == ViewType.ARTIST_PALETTE) {
-            if (holder.bottomContainer != null) {
-                holder.bottomContainer.setBackgroundColor(0x20000000);
-            }
+        if (holder.bottomContainer != null && getViewType() == ViewType.ARTIST_PALETTE) {
+            holder.bottomContainer.setBackgroundColor(0x20000000);
         }
 
         requestManager.load(albumArtist)
@@ -170,6 +165,7 @@ public class AlbumArtistView extends MultiItemView<AlbumArtistView.ViewHolder, A
             case SortManager.ArtistSort.NAME:
                 string = albumArtist.name;
                 break;
+            default break;
         }
 
         if (!TextUtils.isEmpty(string)) {

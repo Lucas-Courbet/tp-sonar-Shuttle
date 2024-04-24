@@ -25,7 +25,7 @@ public class GenreView extends BaseViewModel<GenreView.ViewHolder> implements
         void onOverflowClick(View v, Genre genre);
     }
 
-    public Genre genre;
+    private Genre genre;
 
     @Nullable
     private ClickListener clickListener;

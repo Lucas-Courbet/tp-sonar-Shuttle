@@ -20,7 +20,7 @@ public class SuggestedSongView extends MultiItemView<SuggestedSongView.ViewHolde
         void onSongOverflowClicked(View v, int position, Song song);
     }
 
-    public Song song;
+    private Song song;
 
     private RequestManager requestManager;
 

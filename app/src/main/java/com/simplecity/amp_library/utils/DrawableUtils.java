@@ -12,6 +12,8 @@ import com.simplecity.amp_library.R;
 
 public class DrawableUtils {
 
+    private DrawableUtils() {}
+
     /**
      * Takes a drawable resource and applies the current theme highlight color to it
      *

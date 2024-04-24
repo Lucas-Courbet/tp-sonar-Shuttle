@@ -18,10 +18,10 @@ import com.simplecityapps.recycler_adapter.recyclerview.BaseViewHolder;
 public class InclExclView extends BaseViewModel<InclExclView.ViewHolder> {
 
     public interface ClickListener {
-        void onRemove(InclExclView InclExclView);
+        void onRemove(InclExclView inclExclView);
     }
 
-    public InclExclItem inclExclItem;
+    private InclExclItem inclExclItem;
 
     public InclExclView(InclExclItem inclExclItem) {
         this.inclExclItem = inclExclItem;

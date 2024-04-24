@@ -70,7 +70,7 @@ public class BitmapPaletteProcessor {
      */
     public Pair<Integer, Integer> processBitmap(Bitmap bitmap) {
         int backgroundColor = 0;
-        Palette.Builder paletteBuilder = Palette.from(bitmap).clearFilters(); // we want all colors, red / white / black ones too!;
+        Palette.Builder paletteBuilder = Palette.from(bitmap).clearFilters();
         Palette palette = paletteBuilder.generate();
         backgroundColor = findBackgroundColorAndFilter(palette);
         if (mFilteredBackgroundHsl != null) {

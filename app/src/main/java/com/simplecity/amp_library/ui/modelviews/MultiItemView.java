@@ -14,7 +14,7 @@ import com.simplecityapps.recycler_adapter.model.ViewModel;
 import com.simplecityapps.recycler_adapter.recyclerview.BaseViewHolder;
 import java.util.List;
 
-public abstract class MultiItemView<VH extends MultiItemView.ViewHolder, T> extends BaseSelectableViewModel<VH> {
+public abstract class MultiItemView extends BaseSelectableViewModel<VH> {
 
     @Override
     public int getLayoutResId() {
@@ -100,10 +100,8 @@ public abstract class MultiItemView<VH extends MultiItemView.ViewHolder, T> exte
         }
 
         int viewType = getViewType();
-        if (viewType == ViewType.ARTIST_GRID || viewType == ViewType.ALBUM_GRID) {
-            if (holder.bottomContainer != null) {
-                holder.bottomContainer.setBackgroundColor(0x90000000);
-            }
+        if (holder.bottomContainer != null && viewType == ViewType.ARTIST_GRID || viewType == ViewType.ALBUM_GRID) {
+            holder.bottomContainer.setBackgroundColor(0x90000000);
         }
     }
 

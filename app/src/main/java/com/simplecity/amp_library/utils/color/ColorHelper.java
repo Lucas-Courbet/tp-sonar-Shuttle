@@ -31,20 +31,25 @@ import android.util.Log;
  *
  * @hide
  */
+@SuppressWarnings("java:S6548")
 public class ColorHelper {
 
     private static final String TAG = "ColorHelper";
 
     private static final Object sLock = new Object();
 
-    private static ColorHelper sInstance;
+    private ColorHelper() {}
+
+    private static class SingletonHolder {
+        private static final ColorHelper INSTANCE = new ColorHelper();
+    }
 
     public static ColorHelper getInstance() {
         synchronized (sLock) {
             if (sInstance == null) {
                 sInstance = new ColorHelper();
             }
-            return sInstance;
+            return SingletonHolder.INSTANCE;
         }
     }
 
@@ -68,8 +73,10 @@ public class ColorHelper {
         double[] lab = new double[3];
         ColorUtilsFromCompat.colorToLAB(findFg ? fg : bg, lab);
 
-        double low = 0, high = lab[0];
-        final double a = lab[1], b = lab[2];
+        double low = 0; 
+        double high = lab[0];
+        double a = lab[1];
+        double b = lab[2];
         for (int i = 0; i < 15 && high - low > 0.00001; i++) {
             final double l = (low + high) / 2;
             if (findFg) {
@@ -105,7 +112,8 @@ public class ColorHelper {
         int g = Color.green(color);
         int b = Color.blue(color);
 
-        int low = startAlpha, high = 255;
+        int low = startAlpha;
+        int high = 255;
         for (int i = 0; i < 15 && high - low > 0; i++) {
             final int alpha = (low + high) / 2;
             fg = Color.argb(alpha, r, g, b);
@@ -139,7 +147,8 @@ public class ColorHelper {
         float[] hsl = new float[3];
         ColorUtilsFromCompat.colorToHSL(findFg ? fg : bg, hsl);
 
-        float low = hsl[2], high = 1;
+        float low = hsl[2]
+        float high = 1;
         for (int i = 0; i < 15 && high - low > 0.00001; i++) {
             final float l = (low + high) / 2;
             hsl[2] = l;
